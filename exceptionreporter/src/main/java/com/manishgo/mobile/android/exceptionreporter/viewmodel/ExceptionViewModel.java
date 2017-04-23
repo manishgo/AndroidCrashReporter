@@ -1,5 +1,6 @@
 package com.manishgo.mobile.android.exceptionreporter.viewmodel;
 
+import android.content.res.Resources;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 
@@ -8,7 +9,6 @@ import com.manishgo.mobile.android.exceptionreporter.R;
 import com.manishgo.mobile.android.exceptionreporter.model.AppInfo;
 import com.manishgo.mobile.android.exceptionreporter.model.ThrowableModel;
 import com.manishgo.mobile.android.exceptionreporter.resourceresolver.RawResourceResolver;
-import com.manishgo.mobile.android.exceptionreporter.resourceresolver.StringResourceResolver;
 import com.manishgo.mobile.android.exceptionreporter.util.Preconditions;
 
 import java.io.IOException;
@@ -18,15 +18,15 @@ public class ExceptionViewModel extends BaseObservable {
 
   private String stepsToReplicate;
   private RawResourceResolver rawResourceResolver;
-  private StringResourceResolver stringResourceResolver;
+  private Resources resources;
   private ThrowableModel throwableModel;
   private AppInfo appInfo;
 
-  public ExceptionViewModel(RawResourceResolver rawResourceResolver, StringResourceResolver stringResourceResolver) {
+  public ExceptionViewModel(RawResourceResolver rawResourceResolver, Resources resources) {
     Preconditions.checkNotNull(rawResourceResolver);
-    Preconditions.checkNotNull(stringResourceResolver);
+    Preconditions.checkNotNull(resources);
     this.rawResourceResolver = rawResourceResolver;
-    this.stringResourceResolver = stringResourceResolver;
+    this.resources = resources;
   }
 
   public void populate(ThrowableModel throwableModel, AppInfo appInfo) {
@@ -66,7 +66,7 @@ public class ExceptionViewModel extends BaseObservable {
     try {
       String stepsToReplicate = getStepsToReplicate();
       if(stepsToReplicate==null) {
-        stepsToReplicate = stringResourceResolver.getString(R.string.default_steps_to_replicate);
+        stepsToReplicate = resources.getString(R.string.default_steps_to_replicate);
       }
       return String.format(Locale.getDefault(), rawResourceResolver.getRawString(R.raw.email_template),
           appInfo.getAppName(), appInfo.getAppName(), appInfo.getAppVersionName(), appInfo.getVersionCode(), getFileNameWithLineNumber(), getFullyQualifedMethodName(), getStackTrace(), stepsToReplicate);

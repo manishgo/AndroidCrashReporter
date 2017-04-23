@@ -1,11 +1,12 @@
 package com.manishgo.mobile.android.exceptionreporter.presenter;
 
+import android.content.res.Resources;
+
 import com.manishgo.mobile.android.exceptionreporter.email.EmailSender;
 import com.manishgo.mobile.android.exceptionreporter.log.LogService;
 import com.manishgo.mobile.android.exceptionreporter.model.AppInfo;
 import com.manishgo.mobile.android.exceptionreporter.model.ThrowableModel;
 import com.manishgo.mobile.android.exceptionreporter.resourceresolver.RawResourceResolver;
-import com.manishgo.mobile.android.exceptionreporter.resourceresolver.StringResourceResolver;
 import com.manishgo.mobile.android.exceptionreporter.viewmodel.ExceptionViewModel;
 
 import org.junit.Before;
@@ -33,7 +34,7 @@ public class ExceptionEmailPresenterTest {
   RawResourceResolver rawResourceResolver;
 
   @Mock
-  StringResourceResolver stringResourceResolver;
+  Resources resources;
 
   @Mock
   LogService logService;
@@ -50,7 +51,7 @@ public class ExceptionEmailPresenterTest {
     String stackTrace = "Stack Trace";
     ThrowableModel throwableModel = mock(ThrowableModel.class);
     when(throwableModel.getStackTraceFormatted()).thenReturn(stackTrace);
-    ExceptionViewModel exceptionViewModel = new ExceptionViewModel(rawResourceResolver, stringResourceResolver);
+    ExceptionViewModel exceptionViewModel = new ExceptionViewModel(rawResourceResolver, resources);
     exceptionEmailPresenter.onCreate(throwableModel, exceptionViewModel, mock(AppInfo.class));
 
     assertThat(exceptionViewModel.getStackTrace(), is(stackTrace));

@@ -1,11 +1,12 @@
 package com.manishgo.mobile.android.exceptionreporter.viewmodel;
 
+import android.content.res.Resources;
+
 import com.manishgo.mobile.android.exceptionreporter.BR;
 import com.manishgo.mobile.android.exceptionreporter.R;
 import com.manishgo.mobile.android.exceptionreporter.model.AppInfo;
 import com.manishgo.mobile.android.exceptionreporter.model.ThrowableModel;
 import com.manishgo.mobile.android.exceptionreporter.resourceresolver.RawResourceResolver;
-import com.manishgo.mobile.android.exceptionreporter.resourceresolver.StringResourceResolver;
 import com.manishgo.mobile.android.exceptionreporter.util.ObservableViewModelTest;
 
 import org.junit.Before;
@@ -31,7 +32,7 @@ public class ExceptionViewModelTest extends ObservableViewModelTest {
   RawResourceResolver resourceResolver;
 
   @Mock
-  StringResourceResolver stringResourceResolver;
+  Resources resources;
 
   @Mock
   ThrowableModel throwableModel;
@@ -47,7 +48,7 @@ public class ExceptionViewModelTest extends ObservableViewModelTest {
 
   @Before
   public void setUp() throws Exception {
-    exceptionViewModel = new ExceptionViewModel(resourceResolver, stringResourceResolver);
+    exceptionViewModel = new ExceptionViewModel(resourceResolver, resources);
     setObservable(exceptionViewModel);
     throwable = new NullPointerException();
     stackTrace = "Stack Trace";
@@ -140,7 +141,7 @@ public class ExceptionViewModelTest extends ObservableViewModelTest {
       "%s\n" +
       "%s";
     when(resourceResolver.getRawString(R.raw.email_template)).thenReturn(emailTemplate);
-    when(stringResourceResolver.getString(R.string.default_steps_to_replicate)).thenReturn(defailtStepsToReplicate);
+    when(resources.getString(R.string.default_steps_to_replicate)).thenReturn(defailtStepsToReplicate);
 
     assertThat(exceptionViewModel.getEmailBody(), is(String.format(Locale.getDefault(),
         emailTemplate, APP_NAME, APP_NAME, APP_VERSION_NAME, APP_VERSION_CODE, title, subtitle, stackTrace, defailtStepsToReplicate)));
