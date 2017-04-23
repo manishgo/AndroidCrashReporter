@@ -1,0 +1,18 @@
+language: android
+
+sudo: false
+
+android:
+  components:
+  - tools
+  - platform-tools
+  - build-tools-25.0.2
+  - android-24
+  - sys-img-armeabi-v7a-android-21
+  - extra-android-m2repository
+
+jdk:
+- oraclejdk8
+
+script:
+- "./gradlew :exceptionreporter:clean :exceptionreporter:testDebugUnitTest :exceptionreporter:spoonDebugAndroidTest :exceptionreporter:lintDebug"
