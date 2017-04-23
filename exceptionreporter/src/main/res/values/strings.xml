@@ -1,0 +1,13 @@
+<resources>
+  <string name="app_name">Exception Reporter</string>
+  <string name="steps_to_replicate_hint">Enter steps to replicate(optional)</string>
+  <string name="stack_trace_label">Stack trace</string>
+  <string name="steps_to_replicate_label">Steps to replicate</string>
+  <string name="mail_send_button_text">Send</string>
+  <string name="default_steps_to_replicate">No steps to replicate</string>
+  <string name="email_application_chooser_title">Send</string>
+  <string name="file_provider_authorities">com.manishgo.mobile.android.exceptionreporter.fileprovider</string>
+  <string name="exception_email_activity_task_affinity">com.manishgo.mobile.android.exceptionreporter</string>
+  <string name="notification_message_title">Message from Exception Reporter</string>
+  <string name="notification_message">Report crash in app</string>
+</resources>

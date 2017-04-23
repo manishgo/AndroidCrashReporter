@@ -1,0 +1,64 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:bind="http://schemas.android.com/tools">
+
+  <data class="ExceptionEmailBinding">
+    <variable
+        name="viewModel"
+        type="com.manishgo.mobile.android.exceptionreporter.viewmodel.ExceptionViewModel"/>
+    <variable
+        name="presenter"
+        type="com.manishgo.mobile.android.exceptionreporter.presenter.ExceptionEmailPresenter"/>
+  </data>
+
+  <ScrollView android:layout_width="match_parent"
+              android:layout_height="match_parent"
+  >
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_marginEnd="10dp"
+                  android:layout_marginStart="10dp"
+                  android:orientation="vertical">
+      <TextView
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="15dp"
+          android:text="@{viewModel.title}"
+          android:textStyle="bold"
+      />
+      <TextView
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="40dp"
+          android:text="@string/steps_to_replicate_label"
+      />
+      <EditText android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/steps_to_replicate_hint"
+                android:maxLines="10"
+                android:nestedScrollingEnabled="true"
+                app:text="@={viewModel.stepsToReplicate}"
+                android:textSize="12sp"
+      />
+      <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:text="@string/stack_trace_label"/>
+      <EditText android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:maxLines="10"
+                android:nestedScrollingEnabled="true"
+                android:text="@{viewModel.stackTrace}"
+                android:textSize="12sp"
+      />
+
+      <Button android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_marginTop="15dp"
+              android:onClick="@{() -> presenter.sendMail(viewModel)}"
+              android:text="@string/mail_send_button_text"/>
+
+    </LinearLayout>
+
+  </ScrollView>
+</layout>
