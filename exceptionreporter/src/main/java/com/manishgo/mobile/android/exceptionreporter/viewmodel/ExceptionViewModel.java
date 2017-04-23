@@ -3,26 +3,22 @@ package com.manishgo.mobile.android.exceptionreporter.viewmodel;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 
-import com.google.common.base.Preconditions;
 import com.manishgo.mobile.android.exceptionreporter.BR;
 import com.manishgo.mobile.android.exceptionreporter.R;
 import com.manishgo.mobile.android.exceptionreporter.model.AppInfo;
 import com.manishgo.mobile.android.exceptionreporter.model.ThrowableModel;
 import com.manishgo.mobile.android.exceptionreporter.resourceresolver.RawResourceResolver;
 import com.manishgo.mobile.android.exceptionreporter.resourceresolver.StringResourceResolver;
+import com.manishgo.mobile.android.exceptionreporter.util.Preconditions;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.StringWriter;
 import java.util.Locale;
 
 public class ExceptionViewModel extends BaseObservable {
 
-  private Throwable throwable;
   private String stepsToReplicate;
   private RawResourceResolver rawResourceResolver;
   private StringResourceResolver stringResourceResolver;
-  private StackTraceElement[] stackTrace;
   private ThrowableModel throwableModel;
   private AppInfo appInfo;
 
@@ -45,7 +41,6 @@ public class ExceptionViewModel extends BaseObservable {
 
   @Bindable
   public String getTitle() {
-    StackTraceElement topmostStackTraceElement = topMostStackTraceElement();
     return String.format(Locale.getDefault(), "%s\n%s",
         getFileNameWithLineNumber(), getFullyQualifedMethodName());
   }
