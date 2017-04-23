@@ -4,7 +4,7 @@ buildscript {
         compileSdkVersion = 24
         minSdkVersion = 19
         targetSdkVersion = 24
-        buildToolsVersion = "25.0.0"
+        buildToolsVersion = "25.0.2"
         testRunnerVersion = '0.5'
         espressoVersion = '2.2.2'
     }
