@@ -128,3 +128,11 @@ bintray {
         }
     }
 }
+
+def shouldPublish() {
+    def isPullRequest = System.getenv('TRAVIS_PULL_REQUEST')
+    def branch = System.getenv('TRAVIS_BRANCH')
+    return isPullRequest == 'false' && branch == 'release'
+}
+
+bintrayUpload.onlyIf { shouldPublish() }
