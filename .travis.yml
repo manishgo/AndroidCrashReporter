@@ -1,13 +1,10 @@
 language: android
-
 sudo: false
-
 cache:
   directories:
-    - $HOME/.gradle/caches/
-    - $HOME/.gradle/wrapper/
-    - $HOME/.android/build-cache
-
+  - "$HOME/.gradle/caches/"
+  - "$HOME/.gradle/wrapper/"
+  - "$HOME/.android/build-cache"
 android:
   components:
   - tools
@@ -16,16 +13,18 @@ android:
   - android-24
   - sys-img-armeabi-v7a-android-21
   - extra-android-m2repository
-
 jdk:
 - oraclejdk8
-
 script:
-- "./gradlew :exceptionreporter:clean :exceptionreporter:testDebugUnitTest :exceptionreporter:spoonDebugAndroidTest :exceptionreporter:lintDebug"
-
-
+- "./gradlew :exceptionreporter:clean :exceptionreporter:testDebugUnitTest :exceptionreporter:spoonDebugAndroidTest
+  exceptionreporter:assembleRelease :exceptionreporter:bintrayUpload"
 before_script:
 - echo no | android create avd --force -n test -t android-21 --abi armeabi-v7a
 - emulator -avd test -no-audio -no-window &
 - android-wait-for-emulator
 - adb shell input keyevent 82 &
+env:
+  global:
+  - secure: WAa3GP38vv3HZNa6XFErNI5s09xA09rcciaC2nU1ytteFzTg2nDVYHbz5pymlwfqIiEHamV7a44j6pRha8yvD6ZS9S9829WCIrAlTyxuMJU5/B2viytzhhetNqM/i66bShY6USa05LZ5ndqADTRCFOinsm4lrAYByYm1/RVL2uwyO3LboAu26fqI6QzZ+trTLJZmUkJLdF7QQAKd0NIuoul2phYLeknmtPD8wY+gAa/rI67q4Z08DXJk5oIvvEYE5cqNmbHoeYJbmDUu+PBy/pGUTBgpN0mZZ5/+rp/BiTNOW9aH1QQRMtFtM4gbMboemGnaQUg2u7nQ/J4fRJgb/OFFk1rRuYaXk0eLQD6SwmxC2i45uf4q+KOy+i4nFSuuTTiKryHp6M4lbrbbXqqRqzBUtxUZ5v+8VdXtY4s+xegzCF2HLsNz5QFxXP5afFWDdsohUUfevNBdS0Vob9p355pNS+ckZKnH0rxXt8fxeV6urGrSkSqgWN83PFUOqSl7bvmLK6B82oaFy9resl70r9a+FMeMa1rvQmeVPqtvxrISnFqTXlGflO4XWzxbhRBLPT30I+spOSY55wfsu574YHyrT5aZsTuE5sS2xDrnyS7rP4gvucrdrjk6B03nKhuaafLyc9tsWjZFytglGeXmbnKZJpndMn4CEGpFSPFtgtM=
+  - secure: dF8IOOkoZrfZe9uuMLvBap+JwmgVUqB7ntx68X6/mNdwguuDjkdKUd9SHXbZTL2BYdZlcz3ljv+zq7e5MFoYhYBQ3w7smvgK/Nrk4fsVtxDJw6EiY4fvIWb3LjFDBvlhezqzCuc899XxOd23bquV0LRifV0qyiZ6J0wK0kg8ToV463PWTVlLkB8vPMmSmUq1lQYEzWpOfI6V2kbNHyAy20qZdb1py8Hb942DbtE0dW4Gc2tva/EuuTdodLIdVwsmldriStSfBKucGH7MvMQtVJlX0NqUhNfX++2EJN85zF+rkzIv522TZ0cLL60+Gvdv1ZdlieMC4HI9iKQCSCrsfB7XoAmpAWcoDKq2HxWhrI959pfrDuvflaqn9CHeH2DIrrgXDMASnV3VKdJ9ME6SSnh4u901ETifAHkQxt4VSbSa4TNSVObIz/xcM/1CUzN+MaCt0EqmMl6+NbvG92J5XsQGnrFaBxQ5EXYKmsBNg2qX9TJ5Hu4ks42bLV6HPqPnCQiVwKGTFmHjCQ8ASyssKZ1r99UtZX4mxJ4LF1UFMWtejqCxZrKaBmWC+TzckTSL7xjs4sAvvz9gBZLYSpiamykETdxn8Z5bwML2S5oI7YOPbeI+H1Cp9cFX21ZlQuABzsrzN2FQslsqdsBLJZNKlQ7q9M6MvnALUD1WDAgQ2ek=
+  - secure: b85N3U7lTP++kfopv0si8WBTj7fdMRr2fCDqsZDcauSUKSyo815SSezdgzpGFysZBEeW9XmX2j+wwOuo8oz/UoqUVYCZ78LuaxGM4WArvrZW6SSkWWmqw4BMs7zKinmme8NrjbZfH98hntPRds+6Zg2aCMUUWymly2XzF2Jb+pyiddQ2KRDrUT0db1735hSAIYMroyFTYZxyFDeGbzBrN4obHyLHB2G2azivmiJ5I7Z5xCiN2Qz8ZDNJto1gb9bLQOEgW4OQuJZCBhqoybQHleAPIgbEH/j9/I2uH0uTal9hc/qRA9Z9HryAB4qUhHnzGDpSBzp4wkQsUgDRza4pKn96+kvT9hOKVsJxTEItEybPIGYcEqE4omSphzKsYBB+1yrPSBfaJJG2db0kcM/DkK+EbF8w+mpDEdWWQRwOWFBK7yeaZJOQCkxqbGwQMM/WtPmSr3RKXGHu5dbxGBF0JEdFvjau8n4hUe/RO4gNgaEh3kmDN/W6IVAgiQhY/Otssz8zUBQEhSnM2pkLQbHA4R3xR6d1FXVG6GHp+Yp47/lQRwy/ljP8iOzYBZymoHu9waTRTdkbos6cSwp4tHd1Lc4/b4AODB7q/VDNJUtpIhqVKIS0IlqQK8Z+/zJwM/tNTf703eGbl2Nfzi1KHwqu2iH9kh0TKx0uwQz+WNzOySw=

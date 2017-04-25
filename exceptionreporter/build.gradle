@@ -1,5 +1,9 @@
 apply plugin: 'com.android.library'
 apply plugin: 'spoon'
+apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'com.jfrog.bintray'
+
+version = "1.0"
 
 android {
     compileSdkVersion project.properties.compileSdkVersion
@@ -46,4 +50,81 @@ dependencies {
     }
 
     androidTestCompile("commons-io:commons-io:2.5")
+}
+
+
+def siteUrl = 'http://github.com/manishgo/AndroidCrashReporter'
+def gitUrl = 'https://github.com/manishgo/AndroidCrashReporter.git'
+group = "com.github.manishgo"
+
+install {
+    repositories.mavenInstaller {
+        pom {
+            project {
+                packaging 'aar'
+                name 'com.github.manishgo:androidcrashreporter'
+                description = 'Report crashes observed in Android Application through email with Logs captured at the time of crash'
+                url siteUrl
+
+                licenses {
+                    license {
+                        name 'The Apache Software License, Version 2.0'
+                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    }
+                }
+                developers {
+                    developer {
+                        id 'manishgo'
+                        name 'Manish Goyal'
+                        email 'nishu9601@gmail.com'
+                    }
+                }
+                scm {
+                    connection gitUrl
+                    developerConnection gitUrl
+                    url siteUrl
+                }
+            }
+        }
+    }
+}
+
+task sourcesJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier = 'sources'
+}
+
+task javadoc(type: Javadoc) {
+    source = android.sourceSets.main.java.srcDirs
+    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+artifacts {
+    archives javadocJar
+    archives sourcesJar
+}
+
+bintray {
+    user = System.getenv('BINTRAY_USER')
+    key = System.getenv('BINTRAY_API_KEY')
+    configurations = ['archives']
+    pkg {
+        repo = "maven"
+        name = "com.github.manishgo:androidcrashreporter"
+        websiteUrl = siteUrl
+        vcsUrl = gitUrl
+        licenses = ["Apache-2.0"]
+        publish = true
+        version {
+            gpg {
+                sign = true
+                passphrase = System.getenv('GPG_PASSPHRASE')
+            }
+        }
+    }
 }
